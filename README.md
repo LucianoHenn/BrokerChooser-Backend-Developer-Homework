@@ -2,8 +2,11 @@
 
 ## BrokerChooser Backend Developer Homework
 
+# Important
 
-The only requirement is to execute the TestTypeSeeder.
+Please execute the TestTypeSeeder right after running migrations.
+
+Keep in mind that:
 
 The CTA Button Type expect as variant names bootstrap classic button colors like such as 'danger','info','success',etc.
 
