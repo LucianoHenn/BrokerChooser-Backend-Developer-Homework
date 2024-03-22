@@ -31,3 +31,15 @@ of the system by changing some behaviour of the site (that is visible to the vis
 
 Disclaimer: BrokerChooser already has a more robust version of this A/B testing system implemented, we do not expect you
 to work for us before we hire you. :)
+
+
+
+I created a TestTypeSeeder.
+
+The CTA Button Type expect as variant names bootstrap classic button colors like such as 'danger','info','success',etc.
+
+The Show Social Logins 'true' or 'false'.
+
+The Brand Text any string value.
+
+
