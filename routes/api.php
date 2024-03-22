@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use  App\Http\Controllers\Api\TestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +18,17 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// Route::post('/conversion', [TestController::class, 'saveConversion'])->name('saveConversion');
+
+Route::group([
+    'prefix' => 'tests'
+], function () {
+    Route::put('/{id}/start', [TestController::class, 'start']);
+    Route::put('/{id}/stop', [TestController::class, 'stop']);
+});
+
+
+Route::apiResources([
+    'tests' => TestController::class,
+]);

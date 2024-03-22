@@ -7,30 +7,30 @@
             <div class="card-body">
                 <h5 class="card-title fw-semibold mb-4">New test</h5>
                 <div class="card-body">
-                    <form>
+                    <form class="form1">
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Test name</label>
-                            <input type="text" class="form-control" name="experiment-name">
+                            <input type="text" class="form-control" name="test_name">
                         </div>
                         <div class="form-group mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Experiment type</label>
-                            <select class="form-select mr-sm-2" id="inlineFormCustomSelect">
-                                <option selected>Choose...</option>
-                                <option value="1">CTA Button Color</option>
-                                <option value="2">Show Social Logins </option>
-                                <option value="3">Brand Text</option>
+                            <label for="exampleInputEmail1" class="form-label">Test type</label>
+                            <select class="form-select mr-sm-2" name="test_type" id="test_type">
+                                <option value="" selected>Choose...</option>
+                                @foreach($types as $type)
+                                <option value="{{ $type->id }}">{{ $type->name }}</option>
+                                @endforeach
                             </select>
                         </div>
                     </form>
                     <!-- <div class="mb-5">
                                         <label for="exampleInputPassword1" class="form-label">UUID</label>
-                                        <input type="text" class="form-control" name="experiment_uuid">
+                                        <input type="text" class="form-control" name="test_uuid">
                                     </div> -->
                     </form>
                 </div>
                 <h5 class=" card-title fw-semibold mb-4">Variants</h5>
                 <div class="card-body">
-                    <form>
+                    <form class="form2">
 
                         <div class="row variant-row">
                             <div class="col-md-6">
@@ -159,18 +159,19 @@
             // Initialize an empty object to store form data
             let formData = {
                 "variants": [],
-                "experiment_name": $('input[name=experiment-name]').val()
+                "test_name": $('input[name=test_name]').val(),
+                "test_type": $('#test_type').val(),
             };
 
             // Traverse each input field within the form
             $(this).closest('form').find('.variant-row').each(function() {
-                var variantName = $(this).find('.form-control').eq(0).val(); // Get the value of the first input field
-                var targetingRatio = $(this).find('.form-control').eq(1).val(); // Get the value of the second input field
+                var variant_name = $(this).find('.form-control').eq(0).val(); // Get the value of the first input field
+                var targeting_ratio = $(this).find('.form-control').eq(1).val(); // Get the value of the second input field
 
                 // Create an object with the name and value of each input field
                 var data = {
-                    variantName: variantName,
-                    targetingRatio: targetingRatio
+                    name: variant_name,
+                    targeting_ratio: targeting_ratio
                 };
 
                 // Add the object to the formData array
@@ -179,6 +180,50 @@
 
             // Print the form data to the console (for demonstration)
             console.log(formData);
+
+            // Get the CSRF token from the meta tag
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+            // Set up the AJAX request headers
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                }
+            });
+
+            // Make the AJAX POST request
+            $.ajax({
+                url: 'api/tests',
+                type: 'POST',
+                dataType: 'json',
+                data: formData,
+                success: function(response) {
+                    // Handle the successful response
+                    Swal.fire({
+                        title: 'Success!',
+                        text: response.message,
+                    })
+
+                    setTimeout(function() {
+
+                        window.location.reload();
+                    }, 2000); // 2ess the response data
+                },
+                error: function(xhr, status, error) {
+                    // Handle errors
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: xhr.responseJSON.message,
+                        footer: '<a href="#">Why do I have this issue?</a>'
+                    });
+
+                    // // Add 'was-validated' class to display validation styles
+                    // $('.form1').addClass('was-validated');
+                    // $('.form2').addClass('was-validated');
+                }
+            });
+
         });
     });
 </script>

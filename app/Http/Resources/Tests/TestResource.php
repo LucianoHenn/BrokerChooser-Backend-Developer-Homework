@@ -18,6 +18,7 @@ class TestResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'description' => $this->description,
+            'status' => $this->status,
             'variants' => VariantsResource::collection($this->whenLoaded('variants')),
             'created_at' => $this->created_at->format('d/m/Y'),
             'updated_at' => $this->updated_at->format('d/m/Y'),

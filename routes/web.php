@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,10 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('pages.ab-test.list');
-});
+Route::get('create-test', [DashboardController::class, 'createTest'])->name('createTest');
 
-Route::get('/create-test', function () {
-    return view('pages.ab-test.create');
-});
+Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+
+Route::get('/register', [DashboardController::class, 'register'])->name('register');
